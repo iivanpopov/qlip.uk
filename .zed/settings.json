@@ -1,0 +1,50 @@
+{
+  "format_on_save": "on",
+  "prettier": {
+    "allowed": false
+  },
+  "languages": {
+    "JSON": {
+      "formatter": [{ "language_server": { "name": "oxfmt" } }]
+    },
+    "JSONC": {
+      "formatter": [{ "language_server": { "name": "oxfmt" } }]
+    },
+    "Svelte": {
+      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "language_servers": [
+        "...",
+        "!oxlint",
+        "!stylelint-lsp",
+        "!vtsls",
+        "!typescript-language-server",
+        "!eslint",
+        "!tailwindcss-language-server"
+      ]
+    },
+    "JavaScript": {
+      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "language_servers": [
+        "...",
+        "!oxlint",
+        "!stylelint-lsp",
+        "!vtsls",
+        "!typescript-language-server",
+        "!eslint",
+        "!tailwindcss-language-server"
+      ]
+    },
+    "TypeScript": {
+      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "language_servers": [
+        "...",
+        "!oxlint",
+        "!stylelint-lsp",
+        "!vtsls",
+        "!typescript-language-server",
+        "!eslint",
+        "!tailwindcss-language-server"
+      ]
+    }
+  }
+}
