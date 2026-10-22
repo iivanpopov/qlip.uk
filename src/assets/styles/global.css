@@ -1,0 +1,38 @@
+:root {
+  --foreground: #c7d1d9;
+  --background: #f5f7f6;
+  --selection: #c7d1d945;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+*::selection {
+  background: var(--selection);
+}
+
+body {
+  font-family: "Varela", sans-serif;
+  -ms-overflow-style: none;
+  font-weight: 400;
+  color: var(--foreground);
+  background: var(--background);
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}

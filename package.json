@@ -3,16 +3,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --bun vite dev",
-    "build": "bun --bun vite build",
-    "preview": "bun --bun vite preview",
-    "fmt": "bun --bun oxfmt",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "fmt": "oxfmt",
     "check": "bun fmt && bun --check"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tsconfig/svelte": "^5.0.8",
-    "@types/bun": "^1.4.3",
+    "@types/node": "^26.6.5",
+    "@types/qrcode": "^1.5.6",
     "oxfmt": "^0.74.0",
     "svelte": "^5.57.2",
     "typescript": "^7.0.2",

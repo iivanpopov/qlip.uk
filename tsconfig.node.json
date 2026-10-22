@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["esnext"],
-    "types": ["bun"],
+    "types": ["node"],
     "skipLibCheck": true,
     "module": "esnext",
     "allowImportingTsExtensions": true,
