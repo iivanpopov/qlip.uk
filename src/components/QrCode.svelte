@@ -14,7 +14,7 @@
 
     ctx.fillStyle = '#c7d1d9'
 
-    const pixelSize = size / pixels.size
+    const pixelSize = Math.floor(size / pixels.size)
 
     for (let row = 0; row < pixels.size; row++) {
       for (let col = 0; col < pixels.size; col++) {
