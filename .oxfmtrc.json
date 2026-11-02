@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "semi": false,
-  "svelte": true,
+  // "svelte": true,
   "singleQuote": true,
   "sortImports": true
 }

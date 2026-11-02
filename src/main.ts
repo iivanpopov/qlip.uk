@@ -2,8 +2,8 @@ import { mount } from 'svelte'
 
 import App from './App.svelte'
 
-import './assets/styles/fonts.css'
 import './assets/styles/global.css'
+
 import { LOCALSTORAGE_CLIENT_ID } from './constants'
 
 if (!localStorage.getItem(LOCALSTORAGE_CLIENT_ID))

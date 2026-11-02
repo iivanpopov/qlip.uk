@@ -2,9 +2,7 @@
   import { create as createQr } from 'qrcode'
   import { onMount } from 'svelte'
 
-  let { code }: { code: string } = $props()
-
-  const PIXEL_SIZE = 20
+  let { code, size }: { code: string; size: number } = $props()
 
   let canvas: HTMLCanvasElement
 
@@ -14,19 +12,18 @@
 
     let pixels = createQr(code).modules
 
-    canvas.width = pixels.size * PIXEL_SIZE
-    canvas.height = pixels.size * PIXEL_SIZE
-
     ctx.fillStyle = '#c7d1d9'
+
+    const pixelSize = size / pixels.size
 
     for (let row = 0; row < pixels.size; row++) {
       for (let col = 0; col < pixels.size; col++) {
         if (!pixels.get(row, col)) continue
 
-        ctx.fillRect(col * PIXEL_SIZE, row * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE)
+        ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize)
       }
     }
   })
 </script>
 
-<canvas bind:this={canvas}></canvas>
+<canvas bind:this={canvas} width={size} height={size}></canvas>
