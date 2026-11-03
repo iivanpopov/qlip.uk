@@ -2,45 +2,36 @@
   import { ConnectionStatus } from '../lib'
 
   let { status }: { status: ConnectionStatus } = $props()
+
+  const labels: Record<ConnectionStatus, string> = {
+    [ConnectionStatus.Disconnected]: 'Not connected',
+    [ConnectionStatus.RateLimited]: 'Rate limited',
+    [ConnectionStatus.Connected]: 'Connected',
+    [ConnectionStatus.Connecting]: 'Connecting...',
+    [ConnectionStatus.Closed]: 'Closed',
+    [ConnectionStatus.Closing]: 'Closing...',
+  }
 </script>
 
-{#if status === ConnectionStatus.Disconnected}
-  <div class="info">Not connected</div>
-{:else if status === ConnectionStatus.RateLimited}
-  <div class="warning">Rate limited</div>
-{:else if status === ConnectionStatus.Connected}
-  <div class="success">Connected</div>
-{:else if status === ConnectionStatus.Connecting}
-  <div class="info">Connecting...</div>
-{:else if status === ConnectionStatus.Closed}
-  <div class="info">Closed</div>
-{:else if status === ConnectionStatus.Closing}
-  <div class="info">Closing...</div>
-{/if}
+<div data-status={status}>
+  {labels[status]}
+</div>
 
 <style>
-  .info,
-  .warning,
-  .success {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 0.5rem 0;
-    align-items: center;
+  div {
+    min-height: 40px;
+    line-height: 40px;
+    text-align: center;
     margin-bottom: 5dvh;
-  }
-
-  .info {
     background: var(--muted-foreground);
-    color: var(--foreground);
   }
 
-  .warning {
+  [data-status='rate-limited'] {
     background: var(--warning);
     color: var(--warning-foreground);
   }
 
-  .success {
+  [data-status='connected'] {
     background: var(--success);
     color: var(--success-foreground);
   }

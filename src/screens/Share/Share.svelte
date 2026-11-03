@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { DeleteIcon } from '@lucide/svelte'
   import { onMount } from 'svelte'
 
   import { LOCALSTORAGE_CLIENT_ID } from '#/constants'
@@ -54,17 +53,12 @@
   main {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: min(80vw, 400px);
     margin: 0 auto;
     gap: 1.5rem;
   }
 
   button {
-    width: 100%;
-    border: none;
-    font-weight: 500;
-    color: var(--foreground);
     background: var(--muted-foreground);
     height: 2.25rem;
   }

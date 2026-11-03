@@ -17,14 +17,12 @@
   box-sizing: border-box;
 }
 
-*::selection {
+::selection {
   background: var(--selection);
 }
 
 body {
   font-family: 'JetBrains Mono', monospace;
-  -ms-overflow-style: none;
-  font-weight: 400;
   color: var(--foreground);
   background: var(--background);
 }
@@ -33,17 +31,10 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button,
-input,
-textarea {
-  font: inherit;
-}
-
 button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
   cursor: pointer;
 }

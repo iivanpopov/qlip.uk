@@ -42,19 +42,12 @@
 </footer>
 
 <style>
-  button {
-    background: none;
-    border: none;
-    color: var(--muted-foreground);
-  }
-
   footer {
     position: fixed;
     bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
-    display: flex;
-    justify-content: center;
+    text-align: center;
     color: var(--muted-foreground);
   }
 </style>

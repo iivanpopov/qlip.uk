@@ -6,6 +6,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     resolve: { tsconfigPaths: true },
+    build: {
+      modulePreload: { polyfill: false },
+    },
     server: {
       proxy: {
         '/api': {

@@ -1,7 +1,6 @@
 export default {
   compilerOptions: {
-    experimental: {
-      async: true,
-    },
+    runes: true,
+    discloseVersion: false,
   },
 }

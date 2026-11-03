@@ -1,5 +1,4 @@
 import { API_URL } from '#/config'
-import { api } from '#/lib'
 
 import { closeChannel, closeWebSocket } from '../utils'
 
@@ -34,7 +33,7 @@ export class Connection {
     readonly clientId: string,
   ) {}
 
-  close = (): Promise<void> => {
+  close = () => {
     if (this.closing) return this.closing
 
     this.status = ConnectionStatus.Closing
@@ -72,14 +71,13 @@ export class Connection {
   }
 
   private initRtc = async (ws: WebSocket, signal: AbortSignal) => {
-    const iceServers = await api<RTCIceServer[]>('/ice', {
-      retryDelay: 60,
-      signal,
-      onResponseError: ({ response }) => {
-        if (signal.aborted) return
-        if (response.status === 429) this.status = ConnectionStatus.RateLimited
-      },
-    }).catch(() => [])
+    const iceServers = await fetch(`${API_URL.replace(/\/$/, '')}/ice`, { signal })
+      .then(async (response): Promise<RTCIceServer[]> => {
+        if (response.ok) return response.json()
+        if (response.status === 429 && !signal.aborted) this.status = ConnectionStatus.RateLimited
+        return []
+      })
+      .catch(() => [])
 
     if (signal.aborted) return
 
