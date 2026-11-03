@@ -46,7 +46,7 @@
 <Status status={connection.status} />
 <main>
   <QrCode code={qr} size={500} />
-  <button onclick={onCopy}>Copy</button>
+  <button onclick={onCopy} hidden={!incomingData}>Copy</button>
   <textarea value={incomingData} readonly wrap="off" disabled={!incomingData} rows={10}></textarea>
 </main>
 
