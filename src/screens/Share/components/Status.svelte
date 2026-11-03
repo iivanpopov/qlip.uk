@@ -25,13 +25,14 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 0.5rem 0;
+    height: 3dvh;
+    align-items: center;
     margin-bottom: 5dvh;
   }
 
   .info {
-    background: var(--foreground);
-    color: #1b2126;
+    background: var(--muted-foreground);
+    color: var(--foreground);
   }
 
   .warning {

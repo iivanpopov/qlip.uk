@@ -1,7 +1,8 @@
 @import './fonts.css';
 
 :root {
-  --foreground: #c7d1d9;
+  --foreground: #111212;
+  --muted-foreground: #c7d1d9;
   --background: #f5f7f6;
   --selection: #c7d1d945;
   --warning: #f5791b;
@@ -21,7 +22,7 @@
 }
 
 body {
-  font-family: 'Varela', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   -ms-overflow-style: none;
   font-weight: 400;
   color: var(--foreground);

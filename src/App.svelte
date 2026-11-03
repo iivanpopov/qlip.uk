@@ -53,6 +53,8 @@
   footer {
     display: flex;
     justify-content: center;
-    align-items: end;
+    color: var(--muted-foreground);
+    height: 2dvh;
+    align-items: center;
   }
 </style>
