@@ -54,17 +54,17 @@
   main {
     display: flex;
     flex-direction: column;
-    height: 80dvh;
     align-items: center;
     width: min(80vw, 400px);
     margin: 0 auto;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   button {
     width: 100%;
     border: none;
     font-weight: 500;
+    color: var(--foreground);
     background: var(--muted-foreground);
     height: 2.25rem;
   }
