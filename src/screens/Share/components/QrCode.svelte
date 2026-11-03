@@ -27,3 +27,10 @@
 </script>
 
 <canvas bind:this={canvas} width={size} height={size}></canvas>
+
+<style>
+  canvas {
+    width: min(80vw, 400px);
+    height: min(80vw, 400px);
+  }
+</style>
