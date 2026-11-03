@@ -54,7 +54,7 @@
   main {
     display: flex;
     flex-direction: column;
-    height: 90dvh;
+    height: 80dvh;
     align-items: center;
     width: min(80vw, 400px);
     margin: 0 auto;

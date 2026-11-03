@@ -45,14 +45,12 @@
   button {
     background: none;
     border: none;
-    color: inherit;
+    color: var(--foreground);
   }
 
   footer {
     display: flex;
     justify-content: center;
     color: var(--muted-foreground);
-    height: 2dvh;
-    align-items: center;
   }
 </style>
