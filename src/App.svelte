@@ -38,8 +38,6 @@
     <button onclick={() => navigate('/privacy')}>Privacy</button>
     <span>/</span>
     <button onclick={() => navigate('/terms')}>Terms</button>
-    <span>/</span>
-    <a href="https://github.com/iivanpopov/qlip.uk">GitHub</a>
   </small>
 </footer>
 

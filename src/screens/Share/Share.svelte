@@ -33,6 +33,7 @@
 
   const onCopy = () => {
     if (incomingData) void navigator.clipboard.writeText(incomingData)
+    incomingData = ''
   }
 
   onMount(() => {
@@ -47,7 +48,6 @@
 <main>
   <QrCode code={qr} size={500} />
   <button onclick={onCopy} hidden={!incomingData}>Copy</button>
-  <textarea value={incomingData} readonly wrap="off" disabled={!incomingData} rows={10}></textarea>
 </main>
 
 <style>
@@ -67,14 +67,5 @@
     font-weight: 500;
     background: var(--muted-foreground);
     height: 2.25rem;
-  }
-
-  textarea {
-    width: 100%;
-    background: none;
-    font-family: 'JetBrains Mono';
-    font-size: 18px;
-    border: none;
-    outline: none;
   }
 </style>
