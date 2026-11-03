@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "fmt": "oxfmt",
     "check": "bun fmt && bun --check",
+    "deploy": "bun run build && bunx wrangler deploy",
     "prepare": "lefthook install"
   },
   "dependencies": {
