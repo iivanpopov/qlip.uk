@@ -26,7 +26,6 @@ export class Connection {
   private subscribers = new Set<Subscriber>()
   private outgoingMessage: RTCMessage | null = null
   private abort = new AbortController()
-  private closing: Promise<void> | null = null
 
   constructor(
     readonly room: string,
@@ -34,7 +33,7 @@ export class Connection {
   ) {}
 
   close = () => {
-    if (this.closing) return this.closing
+    if (this.status === ConnectionStatus.Closing || this.status === ConnectionStatus.Closed) return
 
     this.status = ConnectionStatus.Closing
     this.abort.abort()
@@ -61,13 +60,11 @@ export class Connection {
       channel.onmessage = null
     }
 
-    this.closing = Promise.all([closeWebSocket(ws), closeChannel(channel)]).then(() => {
+    Promise.all([closeWebSocket(ws), closeChannel(channel)]).then(() => {
       this.status = ConnectionStatus.Closed
-      this.closing = null
     })
-    peer?.close()
 
-    return this.closing
+    peer?.close()
   }
 
   private initRtc = async (ws: WebSocket, signal: AbortSignal) => {
@@ -101,20 +98,20 @@ export class Connection {
 
     channel.onopen = () => {
       if (signal.aborted) return
+
       this.status = ConnectionStatus.Connected
       channel.onmessage = (message) => this.subscribers.forEach((callback) => callback(message))
-      if (this.outgoingMessage !== null) {
-        this.send(this.outgoingMessage)
-        this.outgoingMessage = null
-      }
+
+      if (!this.outgoingMessage) return
+      this.send(this.outgoingMessage)
+      this.outgoingMessage = null
     }
 
     return peer
   }
 
   connect = async () => {
-    if (this.closing || this.ws || this.channel || this.peer)
-      throw Error('Previous connection is not closed')
+    if (this.status === ConnectionStatus.Closing || this.ws || this.channel || this.peer) return
 
     this.status = ConnectionStatus.Connecting
     this.abort = new AbortController()
@@ -124,67 +121,57 @@ export class Connection {
     this.ws = ws
 
     const candidates = new Set<RTCIceCandidateInit>()
-    const active = () => !signal.aborted && ws.readyState === WebSocket.OPEN
 
     const onMessage = async (message: MessageEvent) => {
-      if (!active() || typeof message.data !== 'string') return
+      if (signal.aborted || typeof message.data !== 'string') return
       const parsed = JSON.parse(message.data)
 
       if (parsed.type === 'ready') {
         const peer = await this.initRtc(ws, signal)
-        if (!peer || !active()) return
-        await peer.setLocalDescription({ type: 'offer' })
-        if (!active()) return
+        if (!peer || signal.aborted) return
 
+        await peer.setLocalDescription({ type: 'offer' })
+
+        if (signal.aborted || ws.readyState !== WebSocket.OPEN) return
         ws.send(JSON.stringify({ type: 'offer', offer: peer.localDescription }))
       } else if (parsed.type === 'offer') {
         const peer = await this.initRtc(ws, signal)
-        if (!peer || !active()) return
-        await peer.setRemoteDescription(parsed.offer)
-        if (!active()) return
-        await peer.setLocalDescription({ type: 'answer' })
-        if (!active()) return
+        if (!peer || signal.aborted) return
 
-        for (const candidate of candidates) {
-          await peer.addIceCandidate(candidate)
-          if (!active()) return
-        }
+        await peer.setRemoteDescription(parsed.offer)
+        await peer.setLocalDescription({ type: 'answer' })
+
+        for (const candidate of candidates) await peer.addIceCandidate(candidate)
         candidates.clear()
 
+        if (signal.aborted || ws.readyState !== WebSocket.OPEN) return
         ws.send(JSON.stringify({ type: 'answer', answer: peer.localDescription }))
       } else if (parsed.type === 'candidate') {
         const peer = this.peer
+
         if (peer?.remoteDescription) await peer.addIceCandidate(parsed.candidate)
         else candidates.add(parsed.candidate)
       } else if (parsed.type === 'answer') {
         const peer = this.peer
         if (!peer) return
+
         await peer.setRemoteDescription(parsed.answer)
-        if (!active()) return
-        for (const candidate of candidates) {
-          await peer.addIceCandidate(candidate)
-          if (!active()) return
-        }
+        for (const candidate of candidates) await peer.addIceCandidate(candidate)
         candidates.clear()
-      } else if (parsed.type === 'close') await this.close()
+      } else if (parsed.type === 'close') this.close()
     }
 
     let pending = Promise.resolve()
     ws.onmessage = (message) => {
       pending = pending
         .then(() => onMessage(message))
-        .catch(async (error) => {
+        .catch((error) => {
           if (signal.aborted) return
-          console.error('Signaling failed', error)
-          await this.close()
+          this.close()
+          throw error
         })
     }
-    ws.onclose = () => void this.close()
-  }
-
-  reconnect = async () => {
-    await this.close()
-    await this.connect()
+    ws.onclose = () => this.close()
   }
 
   onMessage = (callback: Subscriber) => {

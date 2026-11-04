@@ -12,7 +12,7 @@
 
     const pixels = encode(code, { ecc: 'M', border: 0, boostEcc: false })
 
-    ctx.fillStyle = '#c7d1d9'
+    ctx.fillStyle = getComputedStyle(canvas).getPropertyValue('--qr-foreground').trim()
 
     const pixelSize = Math.floor(size / pixels.size)
 

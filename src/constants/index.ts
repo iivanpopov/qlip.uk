@@ -1,1 +1,1 @@
-export const LOCALSTORAGE_CLIENT_ID = 'clientId'
+export const LOCALSTORAGE_CLIENT_ID = 'q:cid'

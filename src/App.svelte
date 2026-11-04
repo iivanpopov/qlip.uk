@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
   import Privacy from './screens/Privacy/Privacy.svelte'
   import Share from './screens/Share/Share.svelte'
   import Terms from './screens/Terms/Terms.svelte'
@@ -12,16 +10,12 @@
     pathname = to
   }
 
-  onMount(() => {
-    const handlePopState = () => {
-      pathname = window.location.pathname
-    }
-
-    window.addEventListener('popstate', handlePopState)
-
-    return () => window.removeEventListener('popstate', handlePopState)
-  })
+  const onPopState = () => {
+    pathname = window.location.pathname
+  }
 </script>
+
+<svelte:window onpopstate={onPopState} />
 
 {#if pathname === '/privacy'}
   <Privacy />
@@ -31,18 +25,16 @@
   <Share />
 {/if}
 
-<footer>
-  <small>
-    <button onclick={() => navigate('/')}>© {new Date().getFullYear()} Ivan Popov</button>
-    <span>/</span>
-    <button onclick={() => navigate('/privacy')}>Privacy</button>
-    <span>/</span>
-    <button onclick={() => navigate('/terms')}>Terms</button>
-  </small>
-</footer>
+<small>
+  <button onclick={() => navigate('/')}>© {new Date().getFullYear()} Ivan Popov</button>
+  /
+  <button onclick={() => navigate('/privacy')}>Privacy</button>
+  /
+  <button onclick={() => navigate('/terms')}>Terms</button>
+</small>
 
 <style>
-  footer {
+  small {
     position: fixed;
     bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
     left: 0;

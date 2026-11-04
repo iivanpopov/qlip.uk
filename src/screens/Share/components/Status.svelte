@@ -23,7 +23,8 @@
     line-height: 40px;
     text-align: center;
     margin-bottom: 5dvh;
-    background: var(--muted-foreground);
+    background: var(--surface);
+    color: var(--muted-foreground);
   }
 
   [data-status='rate-limited'] {

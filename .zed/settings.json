@@ -11,10 +11,12 @@
       "formatter": [{ "language_server": { "name": "oxfmt" } }]
     },
     "Svelte": {
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [
+        { "language_server": { "name": "oxfmt" } },
+        { "code_action": "source.fixAll.oxc" }
+      ],
       "language_servers": [
         "...",
-        "!oxlint",
         "!stylelint-lsp",
         "!vtsls",
         "!typescript-language-server",
@@ -23,10 +25,12 @@
       ]
     },
     "JavaScript": {
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [
+        { "language_server": { "name": "oxfmt" } },
+        { "code_action": "source.fixAll.oxc" }
+      ],
       "language_servers": [
         "...",
-        "!oxlint",
         "!stylelint-lsp",
         "!vtsls",
         "!typescript-language-server",
@@ -35,10 +39,12 @@
       ]
     },
     "TypeScript": {
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [
+        { "language_server": { "name": "oxfmt" } },
+        { "code_action": "source.fixAll.oxc" }
+      ],
       "language_servers": [
         "...",
-        "!oxlint",
         "!stylelint-lsp",
         "!vtsls",
         "!typescript-language-server",

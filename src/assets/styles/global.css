@@ -1,14 +1,19 @@
 @import './fonts.css';
+@import './colors.css';
 
 :root {
-  --foreground: #111212;
-  --muted-foreground: #c7d1d9;
-  --background: #f5f7f6;
-  --selection: #c7d1d945;
-  --warning: #f5791b;
-  --warning-foreground: #261304;
-  --success: #47a14a;
-  --success-foreground: #0a3612;
+  --foreground: var(--gray-8);
+  --muted-foreground: var(--gray-5);
+  --background: var(--gray-1);
+  --surface: var(--gray-2);
+  --surface-hover: var(--gray-3);
+  --border: var(--gray-4);
+  --qr-foreground: var(--gray-7);
+  --selection: var(--gray-3);
+  --warning: #f2ece2;
+  --warning-foreground: #80613b;
+  --success: #e5eeec;
+  --success-foreground: #496b63;
 }
 
 * {
@@ -37,4 +42,13 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+button:hover {
+  color: var(--foreground);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--gray-6);
+  outline-offset: 4px;
 }

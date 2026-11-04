@@ -30,13 +30,10 @@
     else connection.send(blob)
   }
 
-  const onCopy = () => {
-    if (incomingData) void navigator.clipboard.writeText(incomingData)
-    incomingData = ''
-  }
+  const onCopy = () => navigator.clipboard.writeText(incomingData!)
 
   onMount(() => {
-    void connection.connect()
+    connection.connect()
     return () => connection.close()
   })
 </script>
@@ -59,7 +56,7 @@
   }
 
   button {
-    background: var(--muted-foreground);
+    background: var(--surface);
     height: 2.25rem;
   }
 </style>
