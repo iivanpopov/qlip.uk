@@ -14,7 +14,7 @@
 
   const connection = new Connection(room, clientId)
 
-  let incomingData = $state<string>()
+  let incomingData = $state<string | Blob>()
 
   connection.onMessage((event) => {
     incomingData = event.data
@@ -30,7 +30,22 @@
     else connection.send(blob)
   }
 
-  const onCopy = () => navigator.clipboard.writeText(incomingData!)
+  const onCopy = () => {
+    if (typeof incomingData === 'string') navigator.clipboard.writeText(incomingData)
+    else if (incomingData instanceof Blob) {
+      const blob = new Blob([incomingData], { type: 'image/png' })
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+    }
+  }
+
+  const onSave = () => {
+    const blob = new Blob([incomingData!], { type: 'image/png' })
+
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = 'image.png'
+    a.click()
+  }
 
   onMount(() => {
     connection.connect()
@@ -44,6 +59,7 @@
 <main>
   <QrCode code={qr} size={500} />
   <button onclick={onCopy} hidden={!incomingData}>Copy</button>
+  <button onclick={onSave} hidden={!(incomingData instanceof Blob)}>Save</button>
 </main>
 
 <style>

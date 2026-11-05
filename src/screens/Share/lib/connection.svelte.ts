@@ -80,6 +80,7 @@ export class Connection {
 
     const peer = new RTCPeerConnection({ iceServers })
     const channel = peer.createDataChannel('data', { negotiated: true, id: 0 })
+    channel.binaryType = 'blob'
     this.peer = peer
     this.channel = channel
 
