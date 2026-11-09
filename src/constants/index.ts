@@ -1,1 +1,1 @@
-export const LOCALSTORAGE_CLIENT_ID = 'q:cid'
+export const LOCALSTORAGE_CLIENT_ID = 'qlip-clientId'

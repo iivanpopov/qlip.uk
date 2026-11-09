@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Privacy from './screens/Privacy/Privacy.svelte'
-  import Share from './screens/Share/Share.svelte'
-  import Terms from './screens/Terms/Terms.svelte'
+  import Privacy from './pages/Privacy/Privacy.svelte'
+  import Share from './pages/Share/Share.svelte'
+  import Terms from './pages/Terms/Terms.svelte'
 
   let pathname = $state(window.location.pathname)
 
