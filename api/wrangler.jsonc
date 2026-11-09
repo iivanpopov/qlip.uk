@@ -22,14 +22,12 @@
       },
     },
   ],
-  "workers_dev": true,
   "routes": [
     {
       "pattern": "api.qlip.uk",
       "custom_domain": true,
     },
   ],
-  "previews": {},
   "observability": {
     "logs": {
       "enabled": true,
