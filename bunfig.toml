@@ -1,0 +1,24 @@
+[fmt]
+printWidth = 100
+semi = false
+singleQuote = true
+sortPackageJson = true
+
+[fmt.sortImports]
+groups = [
+  "type-builtin",
+  "builtin",
+  "type-external",
+  "external",
+  "type-internal",
+  "internal",
+  "type-parent",
+  "parent",
+  "type-sibling",
+  "sibling",
+  "type-index",
+  "index",
+  "style",
+  ["side_effect", "side_effect_style"],
+  "unknown",
+]

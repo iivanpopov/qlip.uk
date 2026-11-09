@@ -14,6 +14,8 @@
   --warning-foreground: #80613b;
   --success: #e5eeec;
   --success-foreground: #496b63;
+  --error: #f2e5e5;
+  --error-foreground: #874b4b;
 }
 
 * {
@@ -32,23 +34,14 @@ body {
   background: var(--background);
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
-
 button {
   font: inherit;
   color: inherit;
   background: none;
   border: none;
   cursor: pointer;
-}
 
-button:hover {
-  color: var(--foreground);
-}
-
-button:focus-visible {
-  outline: 2px solid var(--gray-6);
-  outline-offset: 4px;
+  &:hover {
+    color: var(--foreground);
+  }
 }

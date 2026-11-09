@@ -1,55 +1,59 @@
 {
   "format_on_save": "on",
-  "prettier": {
-    "allowed": false
+  "prettier": { "allowed": false },
+  "formatter": {
+    "external": {
+      "command": "bun",
+      "arguments": ["fmt", "--stdin-filepath", "{buffer_path}"]
+    }
   },
   "languages": {
-    "JSON": {
-      "formatter": [{ "language_server": { "name": "oxfmt" } }]
-    },
-    "JSONC": {
-      "formatter": [{ "language_server": { "name": "oxfmt" } }]
-    },
     "Svelte": {
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
-      ],
       "language_servers": [
         "...",
-        "!stylelint-lsp",
         "!vtsls",
-        "!typescript-language-server",
-        "!eslint",
-        "!tailwindcss-language-server"
-      ]
-    },
-    "JavaScript": {
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
-      ],
-      "language_servers": [
-        "...",
         "!stylelint-lsp",
-        "!vtsls",
-        "!typescript-language-server",
-        "!eslint",
-        "!tailwindcss-language-server"
+        "!oxfmt",
+        "!unocss-language-server",
+        "!tailwindcss-language-server",
+        "!oxlint",
+        "!eslint"
       ]
     },
     "TypeScript": {
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
-      ],
       "language_servers": [
         "...",
-        "!stylelint-lsp",
         "!vtsls",
-        "!typescript-language-server",
-        "!eslint",
-        "!tailwindcss-language-server"
+        "!stylelint-lsp",
+        "!oxfmt",
+        "!unocss-language-server",
+        "!tailwindcss-language-server",
+        "!oxlint",
+        "!eslint"
+      ]
+    },
+    "JSON": {
+      "language_servers": [
+        "...",
+        "!vtsls",
+        "!stylelint-lsp",
+        "!oxfmt",
+        "!unocss-language-server",
+        "!tailwindcss-language-server",
+        "!oxlint",
+        "!eslint"
+      ]
+    },
+    "JSONC": {
+      "language_servers": [
+        "...",
+        "!vtsls",
+        "!stylelint-lsp",
+        "!oxfmt",
+        "!unocss-language-server",
+        "!tailwindcss-language-server",
+        "!oxlint",
+        "!eslint"
       ]
     }
   }

@@ -26,7 +26,7 @@
 {/if}
 
 <small>
-  <button onclick={() => navigate('/')}>© {new Date().getFullYear()} Ivan Popov</button>
+  <button onclick={() => navigate('/')}>{new Date().getFullYear()} Ivan Popov</button>
   /
   <button onclick={() => navigate('/privacy')}>Privacy</button>
   /
@@ -36,10 +36,13 @@
 <style>
   small {
     position: fixed;
-    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    bottom: 0;
     left: 0;
     right: 0;
+    z-index: 1;
+    padding: 1rem 0.5rem calc(1rem + env(safe-area-inset-bottom, 0px));
     text-align: center;
     color: var(--muted-foreground);
+    background: var(--background);
   }
 </style>

@@ -5,20 +5,20 @@
 
   import QrCode from './components/QrCode.svelte'
   import Status from './components/Status.svelte'
+  import Turnstile from './components/Turnstile.svelte'
   import { Connection } from './lib'
   import { generateCode } from './utils'
 
+  let incoming = $state<string | Blob>()
+
   const clientId = localStorage.getItem(LOCALSTORAGE_CLIENT_ID)!
   const room = window.location.pathname.split('/')[1] || generateCode()
-  const qr = `${window.location.origin}/${room}`
 
-  const connection = new Connection(room, clientId)
+  const onMessage = (event: MessageEvent) => {
+    incoming = event.data
+  }
 
-  let incomingData = $state<string | Blob>()
-
-  connection.onMessage((event) => {
-    incomingData = event.data
-  })
+  const connection = new Connection({ room, clientId, onMessage })
 
   const onPaste = async () => {
     const [item] = await navigator.clipboard.read()
@@ -31,15 +31,15 @@
   }
 
   const onCopy = () => {
-    if (typeof incomingData === 'string') navigator.clipboard.writeText(incomingData)
-    else if (incomingData instanceof Blob) {
-      const blob = new Blob([incomingData], { type: 'image/png' })
+    if (typeof incoming === 'string') navigator.clipboard.writeText(incoming)
+    else if (incoming instanceof Blob) {
+      const blob = new Blob([incoming], { type: 'image/png' })
       navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
     }
   }
 
   const onSave = () => {
-    const blob = new Blob([incomingData!], { type: 'image/png' })
+    const blob = new Blob([incoming!], { type: 'image/png' })
 
     const a = document.createElement('a')
     a.href = URL.createObjectURL(blob)
@@ -47,19 +47,27 @@
     a.click()
   }
 
-  onMount(() => {
-    connection.connect()
-    return () => connection.close()
-  })
+  const onToken = (token?: string) => {
+    if (!token) return
+    connection.connect(token)
+  }
+
+  onMount(() => () => connection.close())
+
+  const qr = `${window.location.origin}/${room}`
 </script>
 
+<svelte:head>
+  <title>qlip</title>
+</svelte:head>
 <svelte:document onpaste={onPaste} />
 
 <Status status={connection.status} />
 <main>
   <QrCode code={qr} size={500} />
-  <button onclick={onCopy} hidden={!incomingData}>Copy</button>
-  <button onclick={onSave} hidden={!(incomingData instanceof Blob)}>Save</button>
+  <Turnstile {onToken} />
+  <button onclick={onCopy} hidden={!incoming}>Copy</button>
+  <button onclick={onSave} hidden={!(incoming instanceof Blob)}>Save</button>
 </main>
 
 <style>

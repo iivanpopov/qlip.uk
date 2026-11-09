@@ -5,12 +5,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview",
-    "fmt": "oxfmt",
-    "lint": "oxlint",
-    "check": "bun fmt && bun --check",
-    "deploy": "bun run build && bunx wrangler deploy",
-    "prepare": "lefthook install"
+    "check": "bun fmt && bun --check && svelte-check --tsgo --tsconfig ./tsconfig.app.json",
+    "deploy": "bun run build && bunx wrangler deploy"
   },
   "dependencies": {
     "uqr": "^0.1.3"
@@ -19,11 +15,10 @@
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tsconfig/svelte": "^5.0.8",
     "@types/node": "^26.6.6",
-    "lefthook": "^2.2.2",
-    "oxfmt": "^0.75.0",
-    "oxlint": "^1.91.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "svelte": "^5.57.3",
-    "typescript": "^7.0.2",
+    "svelte-check": "^4.7.8",
+    "typescript": "^6.0.3",
     "vite": "^8.3.5",
     "wrangler": "^4.156.2"
   }
