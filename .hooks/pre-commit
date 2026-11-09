@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+bun fmt --staged
+bun svelte-check --tsgo --tsconfig ./tsconfig.app.json
+bun --check
