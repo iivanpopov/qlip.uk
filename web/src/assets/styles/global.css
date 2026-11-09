@@ -1,5 +1,6 @@
 @import './fonts.css';
 @import './colors.css';
+@import './components.css';
 
 :root {
   --foreground: var(--gray-8);
@@ -32,16 +33,4 @@ body {
   font-family: 'JetBrains Mono', monospace;
   color: var(--foreground);
   background: var(--background);
-}
-
-button {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    color: var(--foreground);
-  }
 }

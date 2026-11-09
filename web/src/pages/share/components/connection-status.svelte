@@ -5,7 +5,7 @@
 
   const labels: Record<ConnectionStatus, string> = {
     [ConnectionStatus.Initializing]: 'Preparing connection…',
-    [ConnectionStatus.Waiting]: 'Scan the QR code or open link on another device.',
+    [ConnectionStatus.Waiting]: 'Scan the QR code or open room on another device.',
     [ConnectionStatus.Connecting]: 'Connecting devices...',
     [ConnectionStatus.Connected]: 'Ready to send text and images.',
     [ConnectionStatus.Disconnected]:

@@ -11,12 +11,12 @@ export const ConnectionStatus = {
 } as const
 export type ConnectionStatus = (typeof ConnectionStatus)[keyof typeof ConnectionStatus]
 
-export type RTCMessage = string | Blob | ArrayBuffer | ArrayBufferView<ArrayBuffer>
-
 type ConnectionOptions = {
   room: string
   clientId: string
-  onMessage: (message: MessageEvent) => Promise<void> | void
+  onMessage: (message: string | ArrayBuffer) => void
+  onOpen: () => void
+  onClose: () => void
 }
 
 export class Connection {
@@ -25,17 +25,23 @@ export class Connection {
   private ws: WebSocket | null = null
   private peer: Promise<RTCPeerConnection> | null = null
   private channel: RTCDataChannel | null = null
-  private outgoingMessage: RTCMessage | null = null
+  private candidates = new Set<RTCIceCandidateInit>()
   private iceServers: RTCIceServer[] | null = null
   private abort = new AbortController()
 
   constructor(private readonly options: ConnectionOptions) {}
+
+  get isOpen() {
+    return this.channel?.readyState === 'open'
+  }
 
   private async closeRTC() {
     const peer = await this.peer?.catch(() => null)
 
     this.peer = null
     this.channel = null
+    this.candidates.clear()
+    this.options.onClose()
 
     peer?.close()
   }
@@ -66,7 +72,6 @@ export class Connection {
   async close(status: ConnectionStatus = ConnectionStatus.Closed) {
     this.abort.abort()
 
-    this.outgoingMessage = null
     this.status = status
 
     await Promise.all([this.closeRTC(), this.closeWS()])
@@ -89,14 +94,19 @@ export class Connection {
 
   private async createRTC(token: string) {
     const signal = this.abort.signal
+
     let iceServers = this.iceServers
     if (!iceServers) iceServers = await this.fetchIce(token)
 
     const peer = new RTCPeerConnection({ iceServers })
-    const channel = peer.createDataChannel('data', { negotiated: true, id: 0 })
-    channel.binaryType = 'blob'
+    const channel = peer.createDataChannel('data', { negotiated: true, id: 0, ordered: true })
+    channel.binaryType = 'arraybuffer'
 
     this.channel = channel
+    channel.onmessage = (event: MessageEvent<string | ArrayBuffer>) => {
+      if (signal.aborted || this.channel !== channel) return
+      this.options.onMessage(event.data)
+    }
 
     peer.onicecandidate = ({ candidate }) => {
       if (!candidate) return
@@ -121,11 +131,7 @@ export class Connection {
       if (signal.aborted || this.channel !== channel) return
       this.status = ConnectionStatus.Connected
 
-      channel.onmessage = this.options.onMessage
-
-      if (!this.outgoingMessage) return
-      this.send(this.outgoingMessage)
-      this.outgoingMessage = null
+      this.options.onOpen()
     }
 
     channel.onclose = () => {
@@ -174,8 +180,6 @@ export class Connection {
         this.status = ConnectionStatus.Waiting
     }
 
-    const candidates = new Set<RTCIceCandidateInit>()
-
     const onMessage = async (message: MessageEvent) => {
       if (signal.aborted || !this.ws || typeof message.data !== 'string') return
 
@@ -189,9 +193,9 @@ export class Connection {
           peer = await this.getRTC(token)
         }
 
-        await peer!.setLocalDescription()
+        await peer.setLocalDescription()
 
-        this.ws.send(JSON.stringify({ type: 'offer', offer: peer!.localDescription }))
+        this.ws.send(JSON.stringify({ type: 'offer', offer: peer.localDescription }))
       } else if (parsed.type === 'offer') {
         this.status = ConnectionStatus.Connecting
         let peer = await this.getRTC(token)
@@ -200,25 +204,25 @@ export class Connection {
           peer = await this.getRTC(token)
         }
 
-        await peer!.setRemoteDescription(parsed.offer)
-        await peer!.setLocalDescription()
+        await peer.setRemoteDescription(parsed.offer)
+        await peer.setLocalDescription()
 
-        for (const candidate of candidates) await peer!.addIceCandidate(candidate)
-        candidates.clear()
+        for (const candidate of this.candidates) await peer.addIceCandidate(candidate)
+        this.candidates.clear()
 
-        this.ws.send(JSON.stringify({ type: 'answer', answer: peer!.localDescription }))
+        this.ws.send(JSON.stringify({ type: 'answer', answer: peer.localDescription }))
       } else if (parsed.type === 'candidate') {
         const peer = await this.peer
 
         if (peer!.remoteDescription) await peer!.addIceCandidate(parsed.candidate)
-        else candidates.add(parsed.candidate)
+        else this.candidates.add(parsed.candidate)
       } else if (parsed.type === 'answer') {
         const peer = await this.peer
 
         await peer!.setRemoteDescription(parsed.answer)
 
-        for (const candidate of candidates) await peer!.addIceCandidate(candidate)
-        candidates.clear()
+        for (const candidate of this.candidates) await peer!.addIceCandidate(candidate)
+        this.candidates.clear()
       } else if (parsed.type === 'close') {
         await this.closeRTC()
         if (!signal.aborted) this.status = ConnectionStatus.Disconnected
@@ -250,19 +254,11 @@ export class Connection {
     }
   }
 
-  send(message: RTCMessage) {
+  send(message: string | ArrayBuffer) {
     const channel = this.channel
-    const signal = this.abort.signal
+    if (!channel || channel.readyState !== 'open') throw new Error('Data channel is not open')
 
-    const send = () => {
-      if (channel?.readyState !== 'open') return
-      channel.send(message as any)
-    }
-
-    if (channel?.readyState === 'connecting')
-      channel.addEventListener('open', send, { once: true, signal })
-    else if (channel?.readyState === 'open') send()
-    else if (channel === null && this.status === ConnectionStatus.Connecting)
-      this.outgoingMessage = message
+    if (typeof message === 'string') channel.send(message)
+    else channel.send(message)
   }
 }

@@ -1,6 +1,6 @@
 import { mount } from 'svelte'
 
-import App from './App.svelte'
+import App from './app.svelte'
 import { LOCALSTORAGE_CLIENT_ID } from './constants'
 
 import './assets/styles/global.css'

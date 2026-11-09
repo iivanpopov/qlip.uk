@@ -1,5 +1,5 @@
 <script lang="ts">
-  import LegalPage from '#/components/LegalPage.svelte'
+  import LegalPage from '#/components/legal-page.svelte'
 </script>
 
 <LegalPage title="Terms of Use">

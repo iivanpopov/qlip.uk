@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "qlip.uk",
+      "dependencies": {
+        "@lucide/svelte": "^1.70.0",
+      },
     },
     "api": {
       "name": "qlip-api",
@@ -187,6 +190,8 @@
     "@logtape/hono": ["@logtape/hono@2.4.2", "", { "peerDependencies": { "@logtape/logtape": "^2.4.2", "hono": "^4.0.0" } }, "sha512-auNUfwMLqhrmCFEhfSvGBWnEKUqXdzfYJVj2cOd61d7jQs1D4SZbKkf4EiFeMEc/8GgF/zeOYnhtVosPfgCMZg=="],
 
     "@logtape/logtape": ["@logtape/logtape@2.4.2", "", {}, "sha512-YJyC1gEMgWmTqJTRtKkjgasEbi8/0gP7Dj8n6bL46gQIAhpTY8uXJ+1QYMOgF5asotlGMvy3G7ejXUe45Yd1MQ=="],
+
+    "@lucide/svelte": ["@lucide/svelte@1.70.0", "", { "peerDependencies": { "svelte": "^5" } }, "sha512-zvx7K/WLxo82c4ZYqbsfcYUPDVFrq4561xH0NHfSHJJbajj0AONTQ14EO095/WnfI4XUEl1tyS/nbjQNNiNxdQ=="],
 
     "@oxc-project/types": ["@oxc-project/types@0.156.0", "", {}, "sha512-1Duyg48TdJNdyhEB8Xn1L36bT9Pv6GUtlKjHxOys8xkaF/rQq3XJE+bAurSK/AgIz5mGFsb77cn9Pb20+WCScw=="],
 

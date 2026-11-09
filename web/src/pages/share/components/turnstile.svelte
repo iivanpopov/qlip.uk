@@ -45,7 +45,7 @@
 
   let container: HTMLDivElement
 
-  let { onToken }: { onToken: (token?: string) => void } = $props()
+  let { onToken }: { onToken: (token: string) => void } = $props()
 
   onMount(() => {
     const { turnstile } = globalThis as typeof globalThis & { turnstile: Turnstile }
@@ -55,11 +55,11 @@
       sitekey: TURNSTILE_SITE_KEY,
       appearance: 'interaction-only',
       callback: (token) => onToken(token),
-      'expired-callback': () => onToken(undefined),
-      'error-callback': () => onToken(undefined),
     })
 
-    return () => turnstile.remove(widgetId!)
+    return () => {
+      if (widgetId !== undefined) turnstile.remove(widgetId)
+    }
   })
 </script>
 

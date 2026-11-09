@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Privacy from './pages/Privacy/Privacy.svelte'
-  import Share from './pages/Share/Share.svelte'
-  import Terms from './pages/Terms/Terms.svelte'
+  import Privacy from './pages/privacy/privacy.svelte'
+  import Share from './pages/share/share.svelte'
+  import Terms from './pages/terms/terms.svelte'
 
   let pathname = $state(window.location.pathname)
 
@@ -26,11 +26,11 @@
 {/if}
 
 <small>
-  <button onclick={() => navigate('/')}>{new Date().getFullYear()} Ivan Popov</button>
+  <button data-ghost onclick={() => navigate('/')}>{new Date().getFullYear()} Ivan Popov</button>
   /
-  <button onclick={() => navigate('/privacy')}>Privacy</button>
+  <button data-ghost onclick={() => navigate('/privacy')}>Privacy</button>
   /
-  <button onclick={() => navigate('/terms')}>Terms</button>
+  <button data-ghost onclick={() => navigate('/terms')}>Terms</button>
 </small>
 
 <style>
