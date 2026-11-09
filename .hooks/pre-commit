@@ -3,5 +3,4 @@
 set -e
 
 bun fmt --staged
-bun svelte-check --tsgo --tsconfig ./tsconfig.app.json
-bun --check
+bun run --parallel --filter '*' check
