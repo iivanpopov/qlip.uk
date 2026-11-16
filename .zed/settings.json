@@ -7,6 +7,14 @@
       "arguments": ["fmt", "--stdin-filepath", "{buffer_path}"]
     }
   },
+  "lsp": {
+    "typescript-ls": {
+      "binary": {
+        "path": "node_modules/.bin/tsrs",
+        "arguments": ["--lsp", "--stdio"]
+      }
+    }
+  },
   "languages": {
     "Svelte": {
       "language_servers": [
@@ -22,8 +30,10 @@
     },
     "TypeScript": {
       "language_servers": [
+        "typescript-ls",
         "...",
         "!vtsls",
+        "!typescript-language-server",
         "!stylelint-lsp",
         "!oxfmt",
         "!unocss-language-server",
@@ -31,6 +41,12 @@
         "!oxlint",
         "!eslint"
       ]
+    },
+    "TSX": {
+      "language_servers": ["typescript-ls", "...", "!vtsls", "!typescript-language-server"]
+    },
+    "JavaScript": {
+      "language_servers": ["typescript-ls", "...", "!vtsls", "!typescript-language-server"]
     },
     "JSON": {
       "language_servers": [

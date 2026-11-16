@@ -14,9 +14,7 @@ export class Session {
       room,
       clientId,
       onMessage: (message) => this.transfer.receive(message),
-      onOpen: () => {
-        void this.transfer.flush().catch(console.error)
-      },
+      onOpen: () => void this.transfer.flush().catch(console.error),
       onClose: () => this.transfer.resetIncoming(),
     })
     this.transfer = new FileTransfer(this.connection, (file) => this.received.push(file))
