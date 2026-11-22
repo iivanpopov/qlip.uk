@@ -28,8 +28,8 @@ export class Session {
     return this.connection.connect(token)
   }
 
-  async send({ files, text }: { files: readonly File[]; text: string }) {
-    if (files.length) {
+  async send({ files, text }: { files?: readonly File[]; text?: string }) {
+    if (files?.length) {
       await Promise.all(files.map((file) => this.transfer.enqueue(file)))
       return
     }

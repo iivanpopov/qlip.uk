@@ -24,6 +24,12 @@
       .catch(console.error)
   }
 
+  const onPasteButton = async () => {
+    const text = await navigator.clipboard.readText()
+    if (!text.trim()) return
+    void session.send({ text, files: [] })
+  }
+
   const canCopy = (file: File) =>
     file.type === 'text/plain' ||
     (typeof ClipboardItem !== 'undefined' && ClipboardItem.supports(file.type))
@@ -57,6 +63,7 @@
 <ConnectionStatus status={session.status} />
 <main>
   <QrCode code={qr} size={500} />
+  <button onclick={onPasteButton}>Paste</button>
   <Turnstile {onToken} />
   {#each session.received as file (file)}
     <div class="item">
