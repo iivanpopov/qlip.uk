@@ -30,7 +30,8 @@
 }
 
 body {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Gabarito', sans-serif;
+  line-height: 1.5;
   color: var(--foreground);
   background: var(--background);
 }
