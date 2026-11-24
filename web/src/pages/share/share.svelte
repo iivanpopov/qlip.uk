@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { DownloadIcon } from '@lucide/svelte'
   import { onMount } from 'svelte'
 
   import { LOCALSTORAGE_CLIENT_ID } from '#/constants'
@@ -71,7 +70,7 @@
         {file.name}
       </button>
       <button data-icon onclick={() => onSave(file)} aria-label={`Download ${file.name}`}>
-        <DownloadIcon />
+        <span class="i-material-symbols:download" aria-hidden="true"></span>
       </button>
     </div>
   {/each}

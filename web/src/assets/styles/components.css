@@ -1,4 +1,5 @@
 button {
+  display: inline-flex;
   font: inherit;
   border: none;
   cursor: pointer;
@@ -12,7 +13,7 @@ button {
     width: 2.25rem;
     flex-shrink: 0;
 
-    > svg {
+    > * {
       width: 18px;
       height: 18px;
     }

@@ -3,6 +3,7 @@ import { mount } from 'svelte'
 import App from './app.svelte'
 import { LOCALSTORAGE_CLIENT_ID } from './constants'
 
+import 'virtual:uno.css'
 import './assets/styles/global.css'
 
 if (!localStorage.getItem(LOCALSTORAGE_CLIENT_ID))

@@ -1,4 +1,5 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import UnoCSS from 'unocss/vite'
 import { defineConfig, loadEnv } from 'vite'
 
 export default defineConfig(({ mode }) => {
@@ -18,6 +19,6 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [svelte()],
+    plugins: [UnoCSS(), svelte()],
   }
 })
